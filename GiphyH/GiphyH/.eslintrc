@@ -1,0 +1,37 @@
+{
+    "parser": "babel-eslint",
+    "env": {"browser": true},
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "quotes": [
+            "error",
+            "double",
+            {"allowTemplateLiterals": true}
+        ],
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "semi": [
+            "error",
+            "never"
+        ],
+        "object-curly-spacing": [
+            "error",
+            "never"
+        ],
+        "import/prefer-default-export": false,
+        "indent": ["warn", 4],
+        "keyword-spacing": 0,
+        "max-len": ["error", { "code": 120 }],
+        "comma-dangle": ["error", "never"]
+    },
+    "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb-base"]
+}

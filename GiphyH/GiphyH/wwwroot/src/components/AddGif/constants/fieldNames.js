@@ -1,0 +1,1 @@
+export const gif = "gif"

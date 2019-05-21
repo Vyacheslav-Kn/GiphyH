@@ -1,0 +1,61 @@
+{
+  "name": "React-Giphy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "wbp": "webpack"
+  },
+  "dependencies": {
+    "connected-react-router": "^6.4.0",
+    "history": "^4.9.0",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.7.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-hot-loader": "^4.3.11",
+    "react-modal": "^3.8.1",
+    "react-redux": "^6.0",
+    "react-router-dom": "^5.0.0",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-form": "^8.2.0",
+    "redux-saga": "^1.0.2",
+    "reselect": "^4.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-runtime": "^7.4.3",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "aspnet-webpack": "^3.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.2",
+    "clean-webpack-plugin": "^2.0.1",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "file-loader": "^3.0.1",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-middleware": "3.0.0",
+    "webpack-hot-middleware": "^2.25.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vyacheslav-Kn/React-Giphy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Vyacheslav-Kn/React-Giphy/issues"
+  },
+  "homepage": "https://github.com/Vyacheslav-Kn/React-Giphy#readme",
+  "description": ""
+}

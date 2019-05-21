@@ -1,0 +1,10 @@
+form input{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.errorMessage{
+    color:red;
+    margin-bottom:8px;
+}

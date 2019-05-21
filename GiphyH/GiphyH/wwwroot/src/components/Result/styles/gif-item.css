@@ -1,0 +1,14 @@
+.gifItem{
+    display: inline-block;
+    text-align: center;
+}
+
+.gifLink{
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.editLink{
+    text-decoration: none;
+    margin-bottom: 10px;
+}

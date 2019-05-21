@@ -1,0 +1,49 @@
+.modal{
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+    width: 60%;
+    height: 30%;
+    margin: 0 auto;
+}
+
+.modalContent{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.modalMessage{
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 50px;
+}
+
+.modal button{
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-size: 15px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.agreeButton{
+    background-color: blue;
+    border: 1px solid blue;
+    margin-left: 40px;
+}
+
+.cancelButton{
+    background-color: red;
+    border: 1px solid red;
+}
