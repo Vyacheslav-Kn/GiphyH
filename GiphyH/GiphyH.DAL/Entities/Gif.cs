@@ -13,11 +13,6 @@ namespace GiphyH.DAL.Entities
         public string ImageUrl { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
-        public IEnumerable<GifTag> GifTags { get; set; }
-
-        public Gif()
-        {
-            GifTags = new List<GifTag>();
-        }
+        public IEnumerable<GifTag> GifTags { get; set; } = new List<GifTag>();
     }
 }

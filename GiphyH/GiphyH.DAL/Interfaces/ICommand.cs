@@ -6,6 +6,6 @@ namespace GiphyH.DAL.Interfaces
 {
     public interface ICommand
     {
-        string PublicId { get; set; }
+        int Id { get; set; }
     }
 }

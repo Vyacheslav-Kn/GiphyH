@@ -7,7 +7,6 @@ namespace GiphyH.DAL.Commands.Gif
 {
     public class DeleteGif : ICommand
     {
-        public string PublicId { get; set; }
         public int Id { get; set; }
     }
 }

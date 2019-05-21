@@ -12,13 +12,7 @@ namespace GiphyH.DAL.Entities
         public string PasswordHash { get; set; }
         public string Salt { get; set; }
         public string AvatarUrl { get; set; }
-        public IEnumerable<Gif> Gifs { get; set; }
-        public IEnumerable<Tag> Tags { get; set; }
-
-        public User()
-        {
-            this.Gifs = new List<Gif>();
-            this.Tags = new List<Tag>();
-        }
+        public IEnumerable<Gif> Gifs { get; set; } = new List<Gif>();
+        public IEnumerable<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

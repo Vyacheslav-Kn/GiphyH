@@ -14,50 +14,49 @@ namespace GiphyH.DAL.Handlers
         ICommandHandler<UpdateGif>,
         ICommandHandler<DeleteGif>
     {
+        private ApplicationContext _db;
+
+        public CommandHandler(ApplicationContext db)
+        {
+            this._db = db;
+        }
+
         public void Handle(AddGif command)
         {
-            using (ApplicationContext db = new ApplicationContext())
+            Gif gif = new Gif
             {
-                Gif gif = new Gif {
-                    PublicId = command.PublicId,
-                    Title = command.Title,
-                    ImageUrl = command.ImageUrl,
-                    PublicationDate = command.PublicationDate,
-                    UserId = command.UserId
-                };
+                Title = command.Title,
+                ImageUrl = command.ImageUrl,
+                PublicationDate = command.PublicationDate,
+                UserId = command.UserId
+            };
 
-                db.Gifs.Add(gif);
-                db.SaveChanges();
-            }
+            _db.Gifs.Add(gif);
+            _db.SaveChanges();
         }
 
         public void Handle(UpdateGif command)
         {
-            using (ApplicationContext db = new ApplicationContext())
+            Gif gif = new Gif
             {
-                Gif gif = new Gif {
-                    Id = command.Id,
-                    Title = command.Title
-                };
+                Id = command.Id,
+                Title = command.Title
+            };
 
-                db.Attach(gif);
-                db.Entry(gif).Property("Title").IsModified = true;
-                db.SaveChanges();
-            }
+            _db.Attach(gif);
+            _db.Entry(gif).Property("Title").IsModified = true;
+            _db.SaveChanges();
         }
 
         public void Handle(DeleteGif command)
         {
-            using (ApplicationContext db = new ApplicationContext())
+            Gif gif = new Gif
             {
-                Gif gif = new Gif
-                {
-                    Id = command.Id
-                };
+                Id = command.Id
+            };
 
-                db.Gifs.Remove(gif);
-                db.SaveChanges();
-            }
+            _db.Gifs.Remove(gif);
+            _db.SaveChanges();
         }
     }
 }

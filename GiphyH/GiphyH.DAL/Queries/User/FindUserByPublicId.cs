@@ -7,6 +7,6 @@ namespace GiphyH.DAL.Queries.User
 {
     public class FindUserByPublicId : IQuery
     {
-        public string PublicId { get; set; }
+        public int Id { get; set; }
     }
 }

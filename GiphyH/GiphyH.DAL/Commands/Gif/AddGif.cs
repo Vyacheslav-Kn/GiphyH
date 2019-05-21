@@ -7,7 +7,7 @@ namespace GiphyH.DAL.Commands.Gif
 {
     public class AddGif : ICommand
     {
-        public string PublicId { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }
         public string ImageUrl { get; set; }

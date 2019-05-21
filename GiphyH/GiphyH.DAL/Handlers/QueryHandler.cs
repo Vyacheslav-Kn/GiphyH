@@ -13,20 +13,21 @@ namespace GiphyH.DAL.Handlers
         IQueryHandler<FindUserByPublicId, User>,
         IQueryHandler<FindUserByName, User>
     {
+        private ApplicationContext _db;
+
+        public QueryHandler(ApplicationContext db)
+        {
+            this._db = db;
+        }
+
         public User Find(FindUserByPublicId query)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                return db.Users.Where(u => u.PublicId == query.PublicId).FirstOrDefault();
-            }
+            return _db.Users.Where(u => u.Id == query.Id).FirstOrDefault();
         }
 
         public User Find(FindUserByName query)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                return db.Users.Where(u => u.Name == query.Name).FirstOrDefault();
-            }
+            return _db.Users.Where(u => u.Name == query.Name).FirstOrDefault();
         }
     }
 }
