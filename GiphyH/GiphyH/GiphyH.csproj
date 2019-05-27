@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BLL\GiphyH.BLL.csproj" />
     <ProjectReference Include="..\GiphyH.DAL\GiphyH.DAL.csproj" />
   </ItemGroup>
 

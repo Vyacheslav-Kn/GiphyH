@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GiphyH.DAL.Queries.User
+namespace GiphyH.DAL.GifCommands
 {
-    public class FindUserByName : IQuery
+    public class Delete : ICommand
     {
         public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

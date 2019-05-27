@@ -11,6 +11,16 @@ using Microsoft.Extensions.Configuration;
 using GiphyH.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using GiphyH.BLL.Services;
+using GiphyH.BLL.Interfaces;
+using GiphyH.DAL.GifMapper;
+using GiphyH.DAL.UserMapper;
+using GiphyH.DAL.GifHandlers;
+using GiphyH.DAL.Interfaces;
+using GiphyH.DAL.GifInterfaces;
+using GiphyH.DAL.UserInterfaces;
+using GiphyH.DAL.UserHandlers;
+using GiphyH.BLL.MapperGifDTO;
 
 namespace GiphyH
 {
@@ -25,10 +35,7 @@ namespace GiphyH
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>(options =>
-            options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
-
-            services.AddAutoMapper(typeof(Startup));
+            InjectServices(services);
             services.AddMvc();
         }
 
@@ -36,7 +43,16 @@ namespace GiphyH
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.Use(async (ctx, next) =>
+                {
+                    await next();
+                    if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                    {
+                        ctx.Request.Path = "/Home/Index";
+                        await next();
+                    }
+                });
+
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
@@ -51,6 +67,28 @@ namespace GiphyH
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+        }
+
+        private void InjectServices(IServiceCollection services)
+        {
+            services.AddSingleton(Configuration);
+            services.AddTransient<IGifHandler, GifHandler>();
+            services.AddTransient<IGifService, GifService>();
+            services.AddTransient<IUserHandler, UserHandler>();
+            services.AddSingleton<ICryptoService, CryptoService>();
+
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+            });
+
+            MapperConfiguration mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new CommandsToGif());
+                mc.AddProfile(new CommandsToUser());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
     }
 }

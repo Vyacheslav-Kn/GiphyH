@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GiphyH.DAL.Queries.User
+namespace GiphyH.DAL.UserCommands
 {
-    public class FindUserByPublicId : IQuery
+    public class Delete : ICommand
     {
         public int Id { get; set; }
     }

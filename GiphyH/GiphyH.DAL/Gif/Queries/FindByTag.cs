@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GiphyH.DAL.Commands.Gif
+namespace GiphyH.DAL.GifQueries
 {
-    public class DeleteGif : ICommand
+    public class FindByTag : IQuery
     {
         public int Id { get; set; }
+        public string TagTitle { get; set; }
     }
 }

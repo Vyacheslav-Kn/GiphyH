@@ -3,27 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GiphyH.DAL.Commands.Gif;
-using GiphyH.DAL.Database;
-using GiphyH.DAL.Entities;
-using GiphyH.DAL.Handlers;
+using GiphyH.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiphyH.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationContext _db;
-        private IMapper _mapper;
+        private readonly IGifService _gifService;
+        private readonly IMapper _mapper;
 
-        public HomeController(ApplicationContext db, IMapper mapper)
+        public HomeController(IGifService gifService, IMapper mapper)
         {
-            this._db = db;
-            this._mapper = mapper;
+            _gifService = gifService;
+            _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
+            var c = _gifService.GetChunk("giph", 0);
             return View();
         }
     }
