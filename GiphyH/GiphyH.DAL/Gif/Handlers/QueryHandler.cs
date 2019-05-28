@@ -7,13 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GiphyH.DAL.GifHandlers
 {
     public class QueryHandler :
-        IQueryHandler<FindById, Gif>,
-        IQueryHandler<FindByTitle, IEnumerable<Gif>>,
-        IQueryHandler<FindByTag, IEnumerable<Gif>>
+        IQueryHandler<FindById, Task<Gif>>,
+        IQueryHandler<FindByTitle, Task<IEnumerable<Gif>>>,
+        IQueryHandler<FindByTag, Task<IEnumerable<Gif>>>
     {
         private ApplicationContext _db;
 
@@ -22,32 +23,35 @@ namespace GiphyH.DAL.GifHandlers
             _db = db;
         }
 
-        public Gif Find(FindById query)
+        public async Task<Gif> Find(FindById query)
         {
-            return _db.Gifs
+           return await _db.Gifs
+                .AsNoTracking()
                 .Include(g => g.User)
                 .Include(g => g.GifTags)
                 .ThenInclude(gt => gt.Tag)
                 .Where(g => g.Id == query.Id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public IEnumerable<Gif> Find(FindByTitle query)
+        public async Task<IEnumerable<Gif>> Find(FindByTitle query)
         {
-            return _db.Gifs
+            return await _db.Gifs
+                .AsNoTracking()
                 .Where(g => g.Title == query.Title)
                 .Skip(query.Offset)
                 .Take(query.Limit)
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<Gif> Find(FindByTag query)
+        public async Task<IEnumerable<Gif>> Find(FindByTag query)
         {
-            return _db.Gifs
+            return await _db.Gifs
+                .AsNoTracking()
                 .Include(g => g.GifTags)
                 .ThenInclude(gt => gt.Tag)
                 .Where(g => g.GifTags.Any(gt => gt.Tag.Title == query.TagTitle))
-                .ToList();
+                .ToListAsync();
         }
     }
 }

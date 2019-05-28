@@ -6,6 +6,7 @@ using GiphyH.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GiphyH.DAL.UserHandlers
 {
@@ -22,20 +23,20 @@ namespace GiphyH.DAL.UserHandlers
             _mapper = mapper;
         }
 
-        public void Handle(Add command)
+        public async Task Handle(Add command)
         {
             User user = _mapper.Map<Add, User>(command);
 
             _db.Users.Add(user);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void Handle(Delete command)
+        public async Task Handle(Delete command)
         {
             User user = _mapper.Map<Delete, User>(command);
 
             _db.Users.Remove(user);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 }

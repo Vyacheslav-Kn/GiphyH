@@ -11,6 +11,7 @@ using GiphyH.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GiphyH.BLL.Services
 {
@@ -27,9 +28,9 @@ namespace GiphyH.BLL.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<GifDTO> GetChunk(string title, int offset, int limit)
+        public async Task<IEnumerable<GifDTO>> GetChunk(string title, int offset, int limit)
         {
-            IEnumerable<Gif> gifs = _queryHandler.Find(new FindByTitle {
+            IEnumerable<Gif> gifs = await _queryHandler.Find(new FindByTitle {
                 Title = title,
                 Offset = offset,
                 Limit = limit
@@ -38,41 +39,41 @@ namespace GiphyH.BLL.Services
             return _mapper.Map<IEnumerable<Gif>, IEnumerable<GifDTO>>(gifs);
         }
 
-        public GifDTO GetById(int id)
+        public async Task<GifDTO> GetById(int id)
         {
-            Gif gif = _queryHandler.Find(new FindById {
+            Gif gif = await _queryHandler.Find(new FindById {
                 Id = id
             });
 
             return _mapper.Map<Gif, GifDTO>(gif);
         }
 
-        public IEnumerable<GifDTO> GetByTag(string tagTitle)
+        public async Task<IEnumerable<GifDTO>> GetByTag(string tagTitle)
         {
-            IEnumerable<Gif> gifs = _queryHandler.Find(new FindByTag {
+            IEnumerable<Gif> gifs = await _queryHandler.Find(new FindByTag {
                 TagTitle = tagTitle
             });
 
             return _mapper.Map<IEnumerable<Gif>, IEnumerable<GifDTO>>(gifs);
         }
 
-        public void Add(GifDTO gif)
+        public async Task Add(GifDTO gif)
         {
             Add addCommand = _mapper.Map<GifDTO, Add>(gif);
 
-            _commandHandler.Handle(addCommand);
+            await _commandHandler.Handle(addCommand);
         }
 
-        public void Update(GifDTO gif)
+        public async Task Update(GifDTO gif)
         {
             Update updateCommand = _mapper.Map<GifDTO, Update>(gif);
 
-            _commandHandler.Handle(updateCommand);
+            await _commandHandler.Handle(updateCommand);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _commandHandler.Handle(new Delete {
+            await _commandHandler.Handle(new Delete {
                 Id = id
             });
         }

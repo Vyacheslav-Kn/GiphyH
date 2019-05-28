@@ -2,19 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GiphyH.BLL.Interfaces
 {
     public interface IGifService
     {
-        IEnumerable<GifDTO> GetChunk(string title, int offset, int limit = 5);
+        Task<IEnumerable<GifDTO>> GetChunk(string title, int offset, int limit = 5);
 
-        GifDTO GetById(int id);
+        Task<GifDTO> GetById(int id);
 
-        IEnumerable<GifDTO> GetByTag(string tagTitle);
+        Task<IEnumerable<GifDTO>> GetByTag(string tagTitle);
 
-        void Add(GifDTO gif);
+        Task Add(GifDTO gif);
 
-        void Update(GifDTO gif);
+        Task Update(GifDTO gif);
+
+        Task Delete(int id);
     }
 }

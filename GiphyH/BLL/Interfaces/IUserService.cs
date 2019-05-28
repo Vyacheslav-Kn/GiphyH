@@ -1,15 +1,16 @@
 ﻿using GiphyH.BLL.DTO;
+using System.Threading.Tasks;
 
 namespace GiphyH.BLL.Interfaces
 {
     public interface IUserService
     {
-        UserDTO GetById(int id);
+        Task<UserDTO> GetById(int id);
 
-        UserDTO GetByName(string name);
+        Task<UserDTO> GetByName(string name);
 
-        void Add(UserDTO user);
+        Task Add(UserDTO user);
 
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

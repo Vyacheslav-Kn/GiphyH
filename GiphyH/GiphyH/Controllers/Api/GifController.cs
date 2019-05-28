@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiphyH.Controllers.Api
 {
-    [Route("api/[controller]")]
+    [Route("api/gif")]
     [ApiController]
     public class GifController : ControllerBase
     {
@@ -19,18 +20,30 @@ namespace GiphyH.Controllers.Api
             _gifService = gifService;
         }
 
-        // GET: api/Gif
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("/api/search")]
+        public async Task<IActionResult> Get(string title, int offset, int limit)
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<GifDTO> gifs = await _gifService.GetChunk(title, offset, limit);
+
+            if (gifs.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(gifs);
         }
 
-        // GET: api/Gif/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            GifDTO gif = await _gifService.GetById(id);
+
+            if (gif == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(gif);
         }
 
         // POST: api/Gif
@@ -39,16 +52,37 @@ namespace GiphyH.Controllers.Api
         {
         }
 
-        // PUT: api/Gif/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<IActionResult> Put(int id, string title)
         {
+            GifDTO gif = await _gifService.GetById(id);
+
+            if (gif == null)
+            {
+                return NotFound();
+            }
+
+            await _gifService.Update(new GifDTO {
+                Id = id,
+                Title = title
+            });
+
+            return NoContent();
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id)
         {
+            GifDTO gif = await _gifService.GetById(id);
+
+            if (gif == null)
+            {
+                return NotFound();
+            }
+
+            await _gifService.Delete(id);
+
+            return NoContent();
         }
     }
 }

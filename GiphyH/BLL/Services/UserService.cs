@@ -9,6 +9,7 @@ using GiphyH.DAL.UserQueries;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GiphyH.BLL.Services
 {
@@ -25,18 +26,18 @@ namespace GiphyH.BLL.Services
             _mapper = mapper;
         }
 
-        public UserDTO GetById(int id)
+        public async Task<UserDTO> GetById(int id)
         {
-            User user = _queryHandler.Find(new FindById {
+            User user = await _queryHandler.Find(new FindById {
                 Id = id
             });
 
             return _mapper.Map<User, UserDTO>(user);
         }
 
-        public UserDTO GetByName(string name)
+        public async Task<UserDTO> GetByName(string name)
         {
-            User user = _queryHandler.Find(new FindByName
+            User user = await _queryHandler.Find(new FindByName
             {
                 Name = name
             });
@@ -44,16 +45,16 @@ namespace GiphyH.BLL.Services
             return _mapper.Map<User, UserDTO>(user);
         }
 
-        public void Add(UserDTO user)
+        public async Task Add(UserDTO user)
         {
             Add addCommand = _mapper.Map<UserDTO, Add>(user);
 
-            _commandHandler.Handle(addCommand);
+            await _commandHandler.Handle(addCommand);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _commandHandler.Handle(new Delete {
+            await _commandHandler.Handle(new Delete {
                 Id = id
             });
         }

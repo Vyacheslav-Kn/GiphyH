@@ -2,16 +2,18 @@
 using GiphyH.DAL.Entities;
 using GiphyH.DAL.Interfaces;
 using GiphyH.DAL.UserQueries;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GiphyH.DAL.UserHandlers
 {
     public class QueryHandler :
-        IQueryHandler<FindById, User>,
-        IQueryHandler<FindByName, User>
+        IQueryHandler<FindById, Task<User>>,
+        IQueryHandler<FindByName, Task<User>>
     {
         private ApplicationContext _db;
 
@@ -20,14 +22,20 @@ namespace GiphyH.DAL.UserHandlers
             _db = db;
         }
 
-        public User Find(FindById query)
+        public async Task<User> Find(FindById query)
         {
-            return _db.Users.Where(u => u.Id == query.Id).FirstOrDefault();
+            return await _db.Users
+                .AsNoTracking()
+                .Where(u => u.Id == query.Id)
+                .FirstOrDefaultAsync();
         }
 
-        public User Find(FindByName query)
+        public async Task<User> Find(FindByName query)
         {
-            return _db.Users.Where(u => u.Name == query.Name).FirstOrDefault();
+            return await _db.Users
+                .AsNoTracking()
+                .Where(u => u.Name == query.Name)
+                .FirstOrDefaultAsync();
         }
     }
 }

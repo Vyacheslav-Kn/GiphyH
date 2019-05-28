@@ -3,10 +3,9 @@ using GiphyH.DAL.GifCommands;
 using GiphyH.DAL.Database;
 using GiphyH.DAL.Entities;
 using GiphyH.DAL.Interfaces;
+using System.Threading.Tasks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace GiphyH.DAL.GifHandlers
 {
@@ -24,29 +23,29 @@ namespace GiphyH.DAL.GifHandlers
             _mapper = mapper;
         }
 
-        public void Handle(Add command)
+        public async Task Handle(Add command)
         {
             Gif gif = _mapper.Map<Add, Gif>(command);
 
             _db.Gifs.Add(gif);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void Handle(Update command)
+        public async Task Handle(Update command)
         {
             Gif gif = _mapper.Map<Update, Gif>(command);
 
             _db.Attach(gif);
             _db.Entry(gif).Property("Title").IsModified = true;
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
 
-        public void Handle(Delete command)
+        public async Task Handle(Delete command)
         {
             Gif gif = _mapper.Map<Delete, Gif>(command);
 
             _db.Gifs.Remove(gif);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 }
