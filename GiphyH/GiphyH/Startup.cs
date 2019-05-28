@@ -15,11 +15,7 @@ using GiphyH.BLL.Services;
 using GiphyH.BLL.Interfaces;
 using GiphyH.DAL.GifMapper;
 using GiphyH.DAL.UserMapper;
-using GiphyH.DAL.GifHandlers;
-using GiphyH.DAL.Interfaces;
-using GiphyH.DAL.GifInterfaces;
-using GiphyH.DAL.UserInterfaces;
-using GiphyH.DAL.UserHandlers;
+using GiphyH.BLL.MapperUserDTO;
 using GiphyH.BLL.MapperGifDTO;
 
 namespace GiphyH
@@ -72,9 +68,10 @@ namespace GiphyH
         private void InjectServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-            services.AddTransient<IGifHandler, GifHandler>();
-            services.AddTransient<IGifService, GifService>();
-            services.AddTransient<IUserHandler, UserHandler>();
+            services.AddScoped<DAL.GifInterfaces.ICommonHandler, DAL.GifHandlers.CommonHandler>();
+            services.AddScoped<IGifService, GifService>();
+            services.AddScoped<DAL.UserInterfaces.ICommonHandler, DAL.UserHandlers.CommonHandler>();
+            services.AddScoped<IUserService, UserService>();
             services.AddSingleton<ICryptoService, CryptoService>();
 
             services.AddDbContext<ApplicationContext>(options =>
@@ -82,13 +79,21 @@ namespace GiphyH
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
             });
 
+            IMapper mapper = ConfigureMapper();
+            services.AddSingleton(mapper);
+        }
+
+        private IMapper ConfigureMapper()
+        {
             MapperConfiguration mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new CommandsToGif());
                 mc.AddProfile(new CommandsToUser());
+                mc.AddProfile(new GifToGifDTO());
+                mc.AddProfile(new UserToUserDTO());
             });
-            IMapper mapper = mapperConfig.CreateMapper();
-            services.AddSingleton(mapper);
+
+            return mapperConfig.CreateMapper();
         }
     }
 }

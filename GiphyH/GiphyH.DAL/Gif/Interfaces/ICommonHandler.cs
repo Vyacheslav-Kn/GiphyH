@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GiphyH.DAL.GifInterfaces
 {
-    public interface IGifHandler
+    public interface ICommonHandler
     {
         CommandHandler CommandHandler { get; set; }
         QueryHandler QueryHandler { get; set; }

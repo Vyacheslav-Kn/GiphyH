@@ -20,10 +20,10 @@ namespace GiphyH.BLL.Services
         private readonly QueryHandler _queryHandler;
         private readonly IMapper _mapper;
 
-        public GifService(IGifHandler gifHandler, IMapper mapper)
+        public GifService(ICommonHandler commonHandler, IMapper mapper)
         {
-            _commandHandler = gifHandler.CommandHandler;
-            _queryHandler = gifHandler.QueryHandler;
+            _commandHandler = commonHandler.CommandHandler;
+            _queryHandler = commonHandler.QueryHandler;
             _mapper = mapper;
         }
 

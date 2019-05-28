@@ -9,12 +9,12 @@ using System.Text;
 
 namespace GiphyH.DAL.UserHandlers
 {
-    public class UserHandler : IUserHandler
+    public class CommonHandler : ICommonHandler
     {
         public CommandHandler CommandHandler { get; set; }
         public QueryHandler QueryHandler { get; set; }
 
-        public UserHandler(ApplicationContext db, IMapper mapper)
+        public CommonHandler(ApplicationContext db, IMapper mapper)
         {
             CommandHandler = new CommandHandler(db, mapper);
             QueryHandler = new QueryHandler(db);
