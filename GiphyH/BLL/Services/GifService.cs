@@ -60,6 +60,7 @@ namespace GiphyH.BLL.Services
         public async Task Add(GifDTO gif)
         {
             Add addCommand = _mapper.Map<GifDTO, Add>(gif);
+            addCommand.PublicationDate = DateTime.Now;
 
             await _commandHandler.Handle(addCommand);
         }

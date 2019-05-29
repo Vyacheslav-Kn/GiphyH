@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
 using GiphyH.Interfaces;
+using GiphyH.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -18,12 +19,15 @@ namespace GiphyH.Controllers.Api
         private readonly IGifService _gifService;
         private readonly ICryptoService _cryptoService;
         private readonly IJSONService _jsonService;
+        private readonly IFileService _fileService;
 
-        public GifController(IGifService gifService, ICryptoService cryptoService, IJSONService jsonService)
+        public GifController(IGifService gifService, ICryptoService cryptoService,
+            IJSONService jsonService, IFileService fileService)
         {
             _gifService = gifService;
             _cryptoService = cryptoService;
             _jsonService = jsonService;
+            _fileService = fileService;
         }
 
         [HttpGet("/api/search")]
@@ -59,8 +63,13 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(GifDTO gif)
+        public async Task<IActionResult> Post([FromForm]GifPostModel model)
         {
+            GifDTO gif = model.Gif;
+
+            gif.ImageUrl = await _fileService.SaveFile(model.File);
+            await _gifService.Add(gif);
+
             return Ok();
         }
 

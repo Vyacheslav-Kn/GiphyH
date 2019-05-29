@@ -44,7 +44,7 @@ namespace GiphyH
                 app.Use(async (ctx, next) =>
                 {
                     await next();
-                    if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
+                    if (ctx.Response.StatusCode == StatusCodes.Status404NotFound && !ctx.Response.HasStarted)
                     {
                         ctx.Request.Path = "/Home/Index";
                         await next();
@@ -72,6 +72,7 @@ namespace GiphyH
             services.AddSingleton(Configuration);
             services.AddSingleton<ICryptoService, CryptoService>();
             services.AddSingleton<IJSONService, JSONService>();
+            services.AddSingleton<IFileService, FileService>();
             services.AddScoped<DAL.GifInterfaces.ICommonHandler, DAL.GifHandlers.CommonHandler>();
             services.AddScoped<IGifService, GifService>();
             services.AddScoped<DAL.UserInterfaces.ICommonHandler, DAL.UserHandlers.CommonHandler>();
