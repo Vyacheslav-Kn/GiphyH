@@ -17,6 +17,8 @@ using GiphyH.DAL.GifMapper;
 using GiphyH.DAL.UserMapper;
 using GiphyH.BLL.MapperUserDTO;
 using GiphyH.BLL.MapperGifDTO;
+using GiphyH.Services;
+using GiphyH.Interfaces;
 
 namespace GiphyH
 {
@@ -68,11 +70,12 @@ namespace GiphyH
         private void InjectServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
+            services.AddSingleton<ICryptoService, CryptoService>();
+            services.AddSingleton<IJSONService, JSONService>();
             services.AddScoped<DAL.GifInterfaces.ICommonHandler, DAL.GifHandlers.CommonHandler>();
             services.AddScoped<IGifService, GifService>();
             services.AddScoped<DAL.UserInterfaces.ICommonHandler, DAL.UserHandlers.CommonHandler>();
             services.AddScoped<IUserService, UserService>();
-            services.AddSingleton<ICryptoService, CryptoService>();
 
             services.AddDbContext<ApplicationContext>(options =>
             {

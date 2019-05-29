@@ -18,12 +18,14 @@ namespace GiphyH.BLL.Services
         private readonly CommandHandler _commandHandler;
         private readonly QueryHandler _queryHandler;
         private readonly IMapper _mapper;
+        private readonly ICryptoService _cryptoService;
 
-        public UserService(ICommonHandler commonHandler, IMapper mapper)
+        public UserService(ICommonHandler commonHandler, IMapper mapper, ICryptoService cryptoService)
         {
             _commandHandler = commonHandler.CommandHandler;
             _queryHandler = commonHandler.QueryHandler;
             _mapper = mapper;
+            _cryptoService = cryptoService;
         }
 
         public async Task<UserDTO> GetById(int id)
@@ -48,6 +50,7 @@ namespace GiphyH.BLL.Services
         public async Task Add(UserDTO user)
         {
             Add addCommand = _mapper.Map<UserDTO, Add>(user);
+            addCommand.PasswordHash = _cryptoService.CreatePasswordHash(user.Password);
 
             await _commandHandler.Handle(addCommand);
         }

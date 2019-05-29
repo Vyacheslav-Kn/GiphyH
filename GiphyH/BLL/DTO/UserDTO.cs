@@ -8,6 +8,7 @@ namespace GiphyH.BLL.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Password { get; set; }
         public string AvatarUrl { get; set; }
         public IEnumerable<GifDTO> Gifs { get; set; } = new List<GifDTO>();
     }
