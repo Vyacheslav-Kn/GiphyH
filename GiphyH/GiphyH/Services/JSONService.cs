@@ -21,7 +21,7 @@ namespace GiphyH.Services
         public JObject CreateJSONFromGif(GifDTO gif)
         {
             JObject gifJSON = new JObject(
-                new JProperty("Id", _cryptoService.EncryptId(gif.Id)),
+                //new JProperty("Id", _cryptoService.EncryptId(gif.Id)),
                 new JProperty("Title", gif.Title),
                 new JProperty("PublicationDate", gif.PublicationDate),
                 new JProperty("ImageUrl", gif.ImageUrl)

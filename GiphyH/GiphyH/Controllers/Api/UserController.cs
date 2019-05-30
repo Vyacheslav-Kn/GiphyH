@@ -23,7 +23,7 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(UserDTO user)
+        public async Task<IActionResult> Post([FromForm]UserDTO user)
         {
             UserDTO registeredUser = await _userService.GetByName(user.Name);
 

@@ -8,7 +8,7 @@ namespace GiphyH.BLL.DTO
 {
     public class GifDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }
         public string ImageUrl { get; set; }

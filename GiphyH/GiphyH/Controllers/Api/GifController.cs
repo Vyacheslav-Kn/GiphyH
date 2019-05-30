@@ -40,9 +40,9 @@ namespace GiphyH.Controllers.Api
                 return NotFound();
             }
 
-            JArray gifsJSON = _jsonService.CreateJSONFromGifs(gifs);
+            //JArray gifsJSON = _jsonService.CreateJSONFromGifs(gifs);
 
-            return Ok(gifsJSON);
+            return Ok(gifs);
         }
 
         [HttpGet]
@@ -57,9 +57,9 @@ namespace GiphyH.Controllers.Api
                 return NotFound();
             }
 
-            JObject gifJSON = _jsonService.CreateJSONFromGif(gif);
+            //JObject gifJSON = _jsonService.CreateJSONFromGif(gif);
 
-            return Ok(gifJSON);
+            return Ok(gif);
         }
 
         [HttpPost]
@@ -78,14 +78,14 @@ namespace GiphyH.Controllers.Api
         {
             int decryptedId = _cryptoService.DecryptId(id);
 
-            GifDTO savedGif = await _gifService.GetById(Convert.ToInt32(id));
+            GifDTO savedGif = await _gifService.GetById(decryptedId);
 
             if (savedGif == null)
             {
                 return NotFound();
             }
 
-            gif.Id = Convert.ToInt32(id);
+            gif.Id = id;
 
             await _gifService.Update(gif);
 

@@ -40,12 +40,9 @@ namespace GiphyH
         {
             InjectServices(services);
 
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-            ICryptoService cryptoService = serviceProvider.GetService<ICryptoService>();
-
             services.AddMvc(options => {
                 options.RespectBrowserAcceptHeader = true;
-                options.OutputFormatters.Add(new GifOutputFormatter(cryptoService));
+                options.OutputFormatters.Insert(0, new IdOutputFormatter());
             });
         }
 
