@@ -74,18 +74,18 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(string id, GifDTO gif)
+        public async Task<IActionResult> Put(string id, [FromForm]GifDTO gif)
         {
             int decryptedId = _cryptoService.DecryptId(id);
 
-            GifDTO savedGif = await _gifService.GetById(decryptedId);
+            GifDTO savedGif = await _gifService.GetById(Convert.ToInt32(id));
 
             if (savedGif == null)
             {
                 return NotFound();
             }
 
-            gif.Id = decryptedId;
+            gif.Id = Convert.ToInt32(id);
 
             await _gifService.Update(gif);
 

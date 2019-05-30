@@ -17,14 +17,14 @@ namespace GiphyH.BLL.Services
 {
     public class GifService : IGifService
     {
-        private readonly CommandHandler _commandHandler;
-        private readonly QueryHandler _queryHandler;
+        private readonly IGifCommandHandler _commandHandler;
+        private readonly IGifQueryHandler _queryHandler;
         private readonly IMapper _mapper;
 
-        public GifService(ICommonHandler commonHandler, IMapper mapper)
+        public GifService(IGifCommandHandler commandHandler, IGifQueryHandler queryHandler, IMapper mapper)
         {
-            _commandHandler = commonHandler.CommandHandler;
-            _queryHandler = commonHandler.QueryHandler;
+            _commandHandler = commandHandler;
+            _queryHandler = queryHandler;
             _mapper = mapper;
         }
 

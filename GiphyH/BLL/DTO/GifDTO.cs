@@ -1,4 +1,5 @@
-﻿using GiphyH.DAL.Entities;
+﻿using GiphyH.BLL.PublicDTO;
+using GiphyH.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,8 +12,7 @@ namespace GiphyH.BLL.DTO
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }
         public string ImageUrl { get; set; }
-        public int UserId { get; set; }
-        public UserDTO User { get; set; }
-        public IEnumerable<GifTagDTO> GifTags { get; set; } = new List<GifTagDTO>();
+        public UserPublicDTO User { get; set; }
+        public IEnumerable<TagDTO> Tags { get; set; } = new List<TagDTO>();
     }
 }

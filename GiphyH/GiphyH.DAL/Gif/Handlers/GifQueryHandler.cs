@@ -8,17 +8,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GiphyH.DAL.GifInterfaces;
 
 namespace GiphyH.DAL.GifHandlers
 {
-    public class QueryHandler :
-        IQueryHandler<FindById, Task<Gif>>,
-        IQueryHandler<FindByTitle, Task<IEnumerable<Gif>>>,
-        IQueryHandler<FindByTag, Task<IEnumerable<Gif>>>
+    public class GifQueryHandler : IGifQueryHandler
     {
         private ApplicationContext _db;
 
-        public QueryHandler(ApplicationContext db)
+        public GifQueryHandler(ApplicationContext db)
         {
             _db = db;
         }

@@ -1,24 +1,49 @@
 ﻿using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
-using GiphyH.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace GiphyH.Services
+namespace GiphyH.Infrastructure
 {
-    public class JSONService : IJSONService
+    public class GifOutputFormatter : TextOutputFormatter
     {
         private readonly ICryptoService _cryptoService;
 
-        public JSONService(ICryptoService cryptoService)
+        public GifOutputFormatter(ICryptoService cryptoService)
         {
             _cryptoService = cryptoService;
+            SupportedMediaTypes.Add(MediaTypeHeaderValue.Parse("json/gif"));
         }
 
-        public JObject CreateJSONFromGif(GifDTO gif)
+        public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding encoding)
+        {
+            HttpResponse response = context.HttpContext.Response;
+            IEnumerable<GifDTO> gifs = context.Object as IEnumerable<GifDTO>;
+
+            if (gifs != null)
+            {
+                JArray gifsJSON = CreateJSONFromGifs(gifs);
+
+                await response.WriteAsync("gifsJSON");
+            }
+            else
+            {
+                GifDTO gif = context.Object as GifDTO;
+
+                JObject gifJSON = CreateJSONFromGif(gif);
+
+                await response.WriteAsync("gifJSON");
+            }
+        }
+
+        private JObject CreateJSONFromGif(GifDTO gif)
         {
             JObject gifJSON = new JObject(
                 new JProperty("Id", _cryptoService.EncryptId(gif.Id)),
@@ -40,18 +65,14 @@ namespace GiphyH.Services
             if (gif.Tags.Count() > 0)
             {
                 gifJSON.Add(
-                    new JProperty("Tags", new JArray(
-                        gif.Tags.Select(gt => new JObject(
-                            new JProperty("Title", gt.Title)
-                        ))
-                    ))
+                    new JProperty("Tags", new JArray(gif.Tags))
                 );
             }
 
             return gifJSON;
         }
 
-        public JArray CreateJSONFromGifs(IEnumerable<GifDTO> gifs)
+        private JArray CreateJSONFromGifs(IEnumerable<GifDTO> gifs)
         {
             List<JObject> individualGifsJSON = new List<JObject>();
 

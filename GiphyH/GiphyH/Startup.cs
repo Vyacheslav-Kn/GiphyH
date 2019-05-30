@@ -19,6 +19,11 @@ using GiphyH.BLL.MapperUserDTO;
 using GiphyH.BLL.MapperGifDTO;
 using GiphyH.Services;
 using GiphyH.Interfaces;
+using GiphyH.Infrastructure;
+using GiphyH.DAL.GifInterfaces;
+using GiphyH.DAL.GifHandlers;
+using GiphyH.DAL.UserInterfaces;
+using GiphyH.DAL.UserHandlers;
 
 namespace GiphyH
 {
@@ -34,15 +39,21 @@ namespace GiphyH
         public void ConfigureServices(IServiceCollection services)
         {
             InjectServices(services);
-            services.AddMvc();
+
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            ICryptoService cryptoService = serviceProvider.GetService<ICryptoService>();
+
+            services.AddMvc(options => {
+                options.RespectBrowserAcceptHeader = true;
+                options.OutputFormatters.Add(new GifOutputFormatter(cryptoService));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.Use(async (ctx, next) =>
-                {
+                app.Use(async (ctx, next) => {
                     await next();
                     if (ctx.Response.StatusCode == StatusCodes.Status404NotFound && !ctx.Response.HasStarted)
                     {
@@ -73,9 +84,11 @@ namespace GiphyH
             services.AddSingleton<ICryptoService, CryptoService>();
             services.AddSingleton<IJSONService, JSONService>();
             services.AddSingleton<IFileService, FileService>();
-            services.AddScoped<DAL.GifInterfaces.ICommonHandler, DAL.GifHandlers.CommonHandler>();
+            services.AddScoped<IGifCommandHandler, GifCommandHandler>();
+            services.AddScoped<IGifQueryHandler, GifQueryHandler>();
             services.AddScoped<IGifService, GifService>();
-            services.AddScoped<DAL.UserInterfaces.ICommonHandler, DAL.UserHandlers.CommonHandler>();
+            services.AddScoped<IUserCommandHandler, UserCommandHandler>();
+            services.AddScoped<IUserQueryHandler, UserQueryHandler>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<ApplicationContext>(options =>

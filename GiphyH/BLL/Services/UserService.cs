@@ -15,15 +15,16 @@ namespace GiphyH.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly CommandHandler _commandHandler;
-        private readonly QueryHandler _queryHandler;
+        private readonly IUserCommandHandler _commandHandler;
+        private readonly IUserQueryHandler _queryHandler;
         private readonly IMapper _mapper;
         private readonly ICryptoService _cryptoService;
 
-        public UserService(ICommonHandler commonHandler, IMapper mapper, ICryptoService cryptoService)
+        public UserService(IUserCommandHandler commandHandler, IUserQueryHandler queryHandler,
+            IMapper mapper, ICryptoService cryptoService)
         {
-            _commandHandler = commonHandler.CommandHandler;
-            _queryHandler = commonHandler.QueryHandler;
+            _commandHandler = commandHandler;
+            _queryHandler = queryHandler;
             _mapper = mapper;
             _cryptoService = cryptoService;
         }
