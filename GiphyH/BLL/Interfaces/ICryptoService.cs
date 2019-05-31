@@ -2,7 +2,7 @@
 {
     public interface ICryptoService
     {
-        string EncryptId(string id);
+        string EncryptId(int id);
 
         int DecryptId(string cipheredId);
 

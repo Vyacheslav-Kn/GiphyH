@@ -43,11 +43,11 @@ namespace GiphyH.Infrastructure
 
             if (gifs != null)
             {
-                string dbId = "";
+                int dbId = 0;
 
                 foreach (GifDTO gif in gifs)
                 {
-                    dbId = gif.Id;
+                    dbId = Convert.ToInt32(gif.Id);
                     gif.Id = _cryptoService.EncryptId(dbId);
                 }
 
@@ -57,9 +57,9 @@ namespace GiphyH.Infrastructure
             {
                 GifDTO gif = context.Object as GifDTO;
 
-                string dbId = gif.Id;
+                int dbId = Convert.ToInt32(gif.Id);
                 gif.Id = _cryptoService.EncryptId(dbId);
-                
+
                 await response.WriteAsync(JsonConvert.SerializeObject(gif));
             }
         }

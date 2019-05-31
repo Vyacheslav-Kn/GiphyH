@@ -24,6 +24,9 @@ using GiphyH.DAL.GifInterfaces;
 using GiphyH.DAL.GifHandlers;
 using GiphyH.DAL.UserInterfaces;
 using GiphyH.DAL.UserHandlers;
+using System.Collections.Specialized;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace GiphyH
 {
@@ -48,6 +51,11 @@ namespace GiphyH
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseWhen(context => context.Request.Query.ContainsKey("id"), appBuilder =>
+            {
+                appBuilder.UseMiddleware<IdInputMiddleware>();
+            });
+
             if (env.IsDevelopment())
             {
                 app.Use(async (ctx, next) => {
@@ -79,7 +87,6 @@ namespace GiphyH
         {
             services.AddSingleton(Configuration);
             services.AddSingleton<ICryptoService, CryptoService>();
-            services.AddSingleton<IJSONService, JSONService>();
             services.AddSingleton<IFileService, FileService>();
             services.AddScoped<IGifCommandHandler, GifCommandHandler>();
             services.AddScoped<IGifQueryHandler, GifQueryHandler>();

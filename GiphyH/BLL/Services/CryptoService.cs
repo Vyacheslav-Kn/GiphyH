@@ -19,9 +19,9 @@ namespace GiphyH.BLL.Services
             _configuration = config;
         }
 
-        public string EncryptId(string id)
+        public string EncryptId(int id)
         {
-            byte[] idInBytes = Encoding.UTF8.GetBytes(id);
+            byte[] idInBytes = BitConverter.GetBytes(id);
             byte[] cypheredId;
 
             using (Aes aes = Aes.Create())
