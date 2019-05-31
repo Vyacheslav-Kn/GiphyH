@@ -6,6 +6,6 @@ namespace GiphyH.DAL.Interfaces
 {
     public interface IQuery
     {
-        string PublicId { get; set; }
+        int Id { get; set; }
     }
 }

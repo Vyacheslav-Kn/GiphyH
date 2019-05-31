@@ -7,13 +7,33 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.Extensions.Configuration;
+using GiphyH.DAL.Database;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using GiphyH.BLL.Services;
+using GiphyH.BLL.Interfaces;
+using GiphyH.DAL.GifMapper;
+using GiphyH.DAL.UserMapper;
+using GiphyH.BLL.MapperUserDTO;
+using GiphyH.BLL.MapperGifDTO;
+using GiphyH.Services;
+using GiphyH.Interfaces;
 
 namespace GiphyH
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
+            InjectServices(services);
             services.AddMvc();
         }
 
@@ -21,7 +41,16 @@ namespace GiphyH
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.Use(async (ctx, next) =>
+                {
+                    await next();
+                    if (ctx.Response.StatusCode == StatusCodes.Status404NotFound && !ctx.Response.HasStarted)
+                    {
+                        ctx.Request.Path = "/Home/Index";
+                        await next();
+                    }
+                });
+
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
@@ -36,6 +65,39 @@ namespace GiphyH
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
             });
+        }
+
+        private void InjectServices(IServiceCollection services)
+        {
+            services.AddSingleton(Configuration);
+            services.AddSingleton<ICryptoService, CryptoService>();
+            services.AddSingleton<IJSONService, JSONService>();
+            services.AddSingleton<IFileService, FileService>();
+            services.AddScoped<DAL.GifInterfaces.ICommonHandler, DAL.GifHandlers.CommonHandler>();
+            services.AddScoped<IGifService, GifService>();
+            services.AddScoped<DAL.UserInterfaces.ICommonHandler, DAL.UserHandlers.CommonHandler>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]);
+            });
+
+            IMapper mapper = ConfigureMapper();
+            services.AddSingleton(mapper);
+        }
+
+        private IMapper ConfigureMapper()
+        {
+            MapperConfiguration mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new CommandsToGif());
+                mc.AddProfile(new CommandsToUser());
+                mc.AddProfile(new GifToGifDTO());
+                mc.AddProfile(new UserToUserDTO());
+            });
+
+            return mapperConfig.CreateMapper();
         }
     }
 }

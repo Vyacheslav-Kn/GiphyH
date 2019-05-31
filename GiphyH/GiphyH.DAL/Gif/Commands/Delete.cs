@@ -3,11 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GiphyH.DAL.Commands.Gif
+namespace GiphyH.DAL.GifCommands
 {
-    public class DeleteGif : ICommand
+    public class Delete : ICommand
     {
-        public string PublicId { get; set; }
         public int Id { get; set; }
     }
 }

@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GiphyH.DAL.Queries.User
+namespace GiphyH.DAL.UserQueries
 {
-    public class FindUserByName : IQuery
+    public class FindByName : IQuery
     {
-        public string PublicId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }
