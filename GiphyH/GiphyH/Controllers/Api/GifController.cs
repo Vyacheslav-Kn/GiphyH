@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
+using GiphyH.Infrastructure;
 using GiphyH.Interfaces;
 using GiphyH.Models;
 using Microsoft.AspNetCore.Http;
@@ -18,15 +19,13 @@ namespace GiphyH.Controllers.Api
     {
         private readonly IGifService _gifService;
         private readonly ICryptoService _cryptoService;
-        private readonly IJSONService _jsonService;
         private readonly IFileService _fileService;
 
         public GifController(IGifService gifService, ICryptoService cryptoService,
-            IJSONService jsonService, IFileService fileService)
+            IFileService fileService)
         {
             _gifService = gifService;
             _cryptoService = cryptoService;
-            _jsonService = jsonService;
             _fileService = fileService;
         }
 
@@ -44,7 +43,7 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get([ModelBinder(typeof(DecryptModelBinder))]int id)
         {
             GifDTO gif = await _gifService.GetById(id);
 
