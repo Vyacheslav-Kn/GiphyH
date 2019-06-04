@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GiphyH.Interfaces
+namespace GiphyH.BLL.Interfaces
 {
-    public interface IDecryptAttribute { }
+    public interface IProtectAttribute { }
 }

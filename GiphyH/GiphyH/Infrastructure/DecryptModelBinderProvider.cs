@@ -1,4 +1,5 @@
-﻿using GiphyH.Interfaces;
+﻿using GiphyH.BLL.Interfaces;
+using GiphyH.Interfaces;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using System;
@@ -20,10 +21,10 @@ namespace GiphyH.Infrastructure
             var propertyInfo = context.Metadata.ContainerType.GetProperty(propertyName);
             if (propertyInfo == null) return null;
 
-            var encryptAttribute = propertyInfo
-                .GetCustomAttributes(typeof(IDecryptAttribute), false)
+            var decryptAttribute = propertyInfo
+                .GetCustomAttributes(typeof(IProtectAttribute), false)
                 .FirstOrDefault();
-            if (encryptAttribute == null) return null;
+            if (decryptAttribute == null) return null;
 
             return new BinderTypeModelBinder(typeof(DecryptModelBinder));
         }

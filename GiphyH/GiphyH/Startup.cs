@@ -46,17 +46,12 @@ namespace GiphyH
             services.AddMvc(options => {
                 options.RespectBrowserAcceptHeader = true;
                 options.ModelBinderProviders.Insert(0, new DecryptModelBinderProvider());
-                //options.OutputFormatters.Insert(0, new IdOutputFormatter());
+                options.Filters.Add(typeof(EncryptFilter));
             });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.UseWhen(context => context.Request.Query.ContainsKey("id"), appBuilder =>
-            //{
-            //    appBuilder.UseMiddleware<IdInputMiddleware>();
-            //});
-
             if (env.IsDevelopment())
             {
                 app.Use(async (ctx, next) => {
