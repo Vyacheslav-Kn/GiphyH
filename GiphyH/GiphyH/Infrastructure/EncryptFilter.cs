@@ -22,11 +22,16 @@ namespace GiphyH.Infrastructure
         public void OnResultExecuting(ResultExecutingContext context)
         {
             var objectResult = context.Result as ObjectResult;
-            if (objectResult == null) return;
+            if (objectResult == null) {
+                return;
+            }
 
             if (typeof(IEnumerable).IsAssignableFrom(objectResult.Value.GetType()))
             {
-                IList items = objectResult.Value as IList;
+                if (!(objectResult.Value is IList items))
+                {
+                    return;
+                }
 
                 foreach (var item in items)
                 {

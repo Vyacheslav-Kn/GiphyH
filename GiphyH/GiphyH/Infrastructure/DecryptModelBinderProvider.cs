@@ -13,18 +13,28 @@ namespace GiphyH.Infrastructure
     {
         public IModelBinder GetBinder(ModelBinderProviderContext context)
         {
-            if (context.Metadata.IsComplexType) return null;
+            if (context.Metadata.IsComplexType) {
+                return null;
+            }
 
             string propertyName = context.Metadata.PropertyName;
-            if (propertyName == null) return null;
+            if (propertyName == null) {
+                return null;
+            }
 
             var propertyInfo = context.Metadata.ContainerType.GetProperty(propertyName);
-            if (propertyInfo == null) return null;
+            if (propertyInfo == null)
+            {
+                return null;
+            }
 
             var decryptAttribute = propertyInfo
                 .GetCustomAttributes(typeof(IProtectAttribute), false)
                 .FirstOrDefault();
-            if (decryptAttribute == null) return null;
+            if (decryptAttribute == null)
+            {
+                return null;
+            }
 
             return new BinderTypeModelBinder(typeof(DecryptModelBinder));
         }

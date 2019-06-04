@@ -21,9 +21,9 @@ namespace GiphyH.Infrastructure
             ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
             if (valueProviderResult == ValueProviderResult.None)
+            {
                 return Task.CompletedTask;
-
-            bindingContext.ModelState.SetModelValue(bindingContext.ModelName, valueProviderResult);
+            }
 
             int decryptedId = _cryptoService.DecryptId(valueProviderResult.FirstValue);
             bindingContext.Result = ModelBindingResult.Success(decryptedId);
