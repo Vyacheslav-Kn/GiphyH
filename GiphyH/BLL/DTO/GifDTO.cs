@@ -1,4 +1,5 @@
-﻿using GiphyH.BLL.PublicDTO;
+﻿using GiphyH.BLL.Infrastructure;
+using GiphyH.BLL.PublicDTO;
 using GiphyH.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ namespace GiphyH.BLL.DTO
 {
     public class GifDTO
     {
+        [Protect]
         public string Id { get; set; }
         public string Title { get; set; }
         public DateTime PublicationDate { get; set; }

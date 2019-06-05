@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
+using GiphyH.Infrastructure;
 using GiphyH.Interfaces;
 using GiphyH.Models;
 using Microsoft.AspNetCore.Http;
@@ -17,16 +18,11 @@ namespace GiphyH.Controllers.Api
     public class GifController : ControllerBase
     {
         private readonly IGifService _gifService;
-        private readonly ICryptoService _cryptoService;
-        private readonly IJSONService _jsonService;
         private readonly IFileService _fileService;
 
-        public GifController(IGifService gifService, ICryptoService cryptoService,
-            IJSONService jsonService, IFileService fileService)
+        public GifController(IGifService gifService, IFileService fileService)
         {
             _gifService = gifService;
-            _cryptoService = cryptoService;
-            _jsonService = jsonService;
             _fileService = fileService;
         }
 
@@ -44,7 +40,7 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get([ModelBinder(typeof(DecryptModelBinder))]int id)
         {
             GifDTO gif = await _gifService.GetById(id);
 
@@ -68,7 +64,8 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, [FromForm]GifDTO gif)
+        public async Task<IActionResult> Put([ModelBinder(typeof(DecryptModelBinder))]int id,
+            [FromForm]GifDTO gif)
         {
             GifDTO savedGif = await _gifService.GetById(id);
 
@@ -84,7 +81,7 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([ModelBinder(typeof(DecryptModelBinder))]int id)
         {
             GifDTO gif = await _gifService.GetById(id);
 
