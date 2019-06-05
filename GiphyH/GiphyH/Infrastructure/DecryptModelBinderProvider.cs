@@ -28,10 +28,10 @@ namespace GiphyH.Infrastructure
                 return null;
             }
 
-            var decryptAttribute = propertyInfo
-                .GetCustomAttributes(typeof(IProtectAttribute), false)
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(IEncryptAttribute), false)
                 .FirstOrDefault();
-            if (decryptAttribute == null)
+            if (attribute == null)
             {
                 return null;
             }

@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 namespace GiphyH.BLL.Interfaces
 {
-    public interface IProtectAttribute { }
+    public interface IEncryptAttribute { }
 }

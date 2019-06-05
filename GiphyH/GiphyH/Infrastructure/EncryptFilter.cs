@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace GiphyH.Infrastructure
@@ -21,53 +22,46 @@ namespace GiphyH.Infrastructure
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-            var objectResult = context.Result as ObjectResult;
+            ObjectResult objectResult = context.Result as ObjectResult;
             if (objectResult == null) {
                 return;
             }
 
             if (typeof(IEnumerable).IsAssignableFrom(objectResult.Value.GetType()))
             {
-                if (!(objectResult.Value is IList items))
+                if (!(objectResult.Value is IEnumerable items))
                 {
                     return;
                 }
 
-                foreach (var item in items)
+                foreach (object item in items)
                 {
-                    foreach (var prop in item.GetType().GetProperties())
-                    {
-                        var attribute = prop
-                            .GetCustomAttributes(typeof(IProtectAttribute), false)
-                            .FirstOrDefault();
-
-                        if (attribute != null)
-                        {
-                            var value = prop.GetValue(item);
-                            string cipheredId = _cryptoService.EncryptId(Convert.ToInt32(value));
-                            prop.SetValue(item, cipheredId);
-                        }
-                    }
+                    EncryptIdProperty(item);
                 }
             }
             else
             {
-                foreach (var prop in objectResult.Value.GetType().GetProperties())
-                {
-                    var attribute = prop
-                        .GetCustomAttributes(typeof(IProtectAttribute), false)
-                        .FirstOrDefault();
-
-                    if (attribute != null)
-                    {
-                        var value = prop.GetValue(objectResult.Value);
-                        string cipheredId = _cryptoService.EncryptId(Convert.ToInt32(value));
-                        prop.SetValue(objectResult.Value, cipheredId);
-                    }
-                }
+                EncryptIdProperty(objectResult.Value);
             }
         }
 
         public void OnResultExecuted(ResultExecutedContext context) { }
+
+        private void EncryptIdProperty(object model)
+        {
+            foreach (PropertyInfo prop in model.GetType().GetProperties())
+            {
+                object attribute = prop
+                    .GetCustomAttributes(typeof(IEncryptAttribute), false)
+                    .FirstOrDefault();
+
+                if (attribute != null)
+                {
+                    object value = prop.GetValue(model);
+                    string cipheredId = _cryptoService.EncryptId(Convert.ToInt32(value));
+                    prop.SetValue(model, cipheredId);
+                }
+            }
+        }
     }
 }
