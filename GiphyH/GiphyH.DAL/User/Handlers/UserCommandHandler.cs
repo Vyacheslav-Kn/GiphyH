@@ -2,10 +2,6 @@
 using GiphyH.DAL.UserCommands;
 using GiphyH.DAL.Database;
 using GiphyH.DAL.Entities;
-using GiphyH.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using GiphyH.DAL.UserInterfaces;
 

@@ -1,13 +1,11 @@
-﻿using GiphyH.BLL.Interfaces;
-using GiphyH.Interfaces;
+﻿using GiphyH.BLL.Infrastructure;
+using GiphyH.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace GiphyH.Infrastructure
 {
@@ -22,8 +20,8 @@ namespace GiphyH.Infrastructure
 
         public void OnResultExecuting(ResultExecutingContext context)
         {
-            ObjectResult objectResult = context.Result as ObjectResult;
-            if (objectResult == null) {
+            if (!(context.Result is ObjectResult objectResult))
+            {
                 return;
             }
 
@@ -52,7 +50,7 @@ namespace GiphyH.Infrastructure
             foreach (PropertyInfo prop in model.GetType().GetProperties())
             {
                 object attribute = prop
-                    .GetCustomAttributes(typeof(IEncryptAttribute), false)
+                    .GetCustomAttributes(typeof(EncryptAttribute), false)
                     .FirstOrDefault();
 
                 if (attribute != null)

@@ -1,11 +1,7 @@
-﻿using GiphyH.BLL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace GiphyH.BLL.Infrastructure
 {
     [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
-    public class EncryptAttributeAttribute : Attribute, IEncryptAttribute { }
+    public class EncryptAttribute : Attribute { }
 }

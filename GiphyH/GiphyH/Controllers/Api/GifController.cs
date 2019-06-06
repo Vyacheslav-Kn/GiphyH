@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GiphyH.BLL.DTO;
+﻿using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
 using GiphyH.Infrastructure;
 using GiphyH.Interfaces;
 using GiphyH.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GiphyH.Controllers.Api
 {

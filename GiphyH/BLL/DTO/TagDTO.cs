@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GiphyH.BLL.DTO
+﻿namespace GiphyH.BLL.DTO
 {
     public class TagDTO
     {
