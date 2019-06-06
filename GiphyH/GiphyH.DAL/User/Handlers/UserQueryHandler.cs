@@ -1,23 +1,18 @@
 ﻿using GiphyH.DAL.Database;
 using GiphyH.DAL.Entities;
-using GiphyH.DAL.Interfaces;
+using GiphyH.DAL.UserInterfaces;
 using GiphyH.DAL.UserQueries;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GiphyH.DAL.UserHandlers
 {
-    public class QueryHandler :
-        IQueryHandler<FindById, Task<User>>,
-        IQueryHandler<FindByName, Task<User>>
+    public class UserQueryHandler : IUserQueryHandler
     {
         private ApplicationContext _db;
 
-        public QueryHandler(ApplicationContext db)
+        public UserQueryHandler(ApplicationContext db)
         {
             _db = db;
         }

@@ -2,22 +2,17 @@
 using GiphyH.DAL.GifCommands;
 using GiphyH.DAL.Database;
 using GiphyH.DAL.Entities;
-using GiphyH.DAL.Interfaces;
 using System.Threading.Tasks;
-using System;
-using Microsoft.EntityFrameworkCore;
+using GiphyH.DAL.GifInterfaces;
 
 namespace GiphyH.DAL.GifHandlers
 {
-    public class CommandHandler :
-        ICommandHandler<Add>,
-        ICommandHandler<Update>,
-        ICommandHandler<Delete>
+    public class GifCommandHandler : IGifCommandHandler
     {
         private ApplicationContext _db;
         private readonly IMapper _mapper;
 
-        public CommandHandler(ApplicationContext db, IMapper mapper)
+        public GifCommandHandler(ApplicationContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;

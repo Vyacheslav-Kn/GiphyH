@@ -2,22 +2,17 @@
 using GiphyH.DAL.UserCommands;
 using GiphyH.DAL.Database;
 using GiphyH.DAL.Entities;
-using GiphyH.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using GiphyH.DAL.UserInterfaces;
 
 namespace GiphyH.DAL.UserHandlers
 {
-    public class CommandHandler :
-        ICommandHandler<Add>,
-        ICommandHandler<Delete>
+    public class UserCommandHandler : IUserCommandHandler
     {
         private ApplicationContext _db;
         private readonly IMapper _mapper;
 
-        public CommandHandler(ApplicationContext db, IMapper mapper)
+        public UserCommandHandler(ApplicationContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using GiphyH.DAL.UserCommands;
 using GiphyH.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GiphyH.DAL.UserMapper
 {

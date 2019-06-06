@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using GiphyH.BLL.DTO;
 using GiphyH.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace GiphyH.BLL.MapperGifDTO
 {
@@ -12,7 +10,8 @@ namespace GiphyH.BLL.MapperGifDTO
         public GifToGifDTO()
         {
             AllowNullCollections = true;
-            CreateMap<Gif, GifDTO>();
+            CreateMap<Gif, GifDTO>()
+                .ForMember(g => g.Tags, opt => opt.MapFrom(gd => gd.GifTags.Select(gt => gt.Tag)));
         }
     }
 }

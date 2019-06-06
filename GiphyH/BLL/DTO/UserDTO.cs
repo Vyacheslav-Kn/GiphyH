@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using GiphyH.BLL.Infrastructure;
+using GiphyH.BLL.PublicDTO;
 
 namespace GiphyH.BLL.DTO
 {
-    public class UserDTO
+    public class UserDTO : UserPublicDTO
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        [Encrypt]
+        public string Id { get; set; }
         public string Password { get; set; }
-        public string AvatarUrl { get; set; }
-        public IEnumerable<GifDTO> Gifs { get; set; } = new List<GifDTO>();
     }
 }

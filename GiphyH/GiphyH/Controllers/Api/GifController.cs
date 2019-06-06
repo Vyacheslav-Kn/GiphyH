@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GiphyH.BLL.DTO;
+﻿using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
 using GiphyH.Interfaces;
 using GiphyH.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GiphyH.Controllers.Api
 {
@@ -17,16 +14,11 @@ namespace GiphyH.Controllers.Api
     public class GifController : ControllerBase
     {
         private readonly IGifService _gifService;
-        private readonly ICryptoService _cryptoService;
-        private readonly IJSONService _jsonService;
         private readonly IFileService _fileService;
 
-        public GifController(IGifService gifService, ICryptoService cryptoService,
-            IJSONService jsonService, IFileService fileService)
+        public GifController(IGifService gifService, IFileService fileService)
         {
             _gifService = gifService;
-            _cryptoService = cryptoService;
-            _jsonService = jsonService;
             _fileService = fileService;
         }
 
@@ -40,26 +32,20 @@ namespace GiphyH.Controllers.Api
                 return NotFound();
             }
 
-            JArray gifsJSON = _jsonService.CreateJSONFromGifs(gifs);
-
-            return Ok(gifsJSON);
+            return Ok(gifs);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> Get([FromQuery]IdModel model)
         {
-            int decryptedId = _cryptoService.DecryptId(id);
-
-            GifDTO gif = await _gifService.GetById(decryptedId);
+            GifDTO gif = await _gifService.GetById(model.Id);
 
             if (gif == null)
             {
                 return NotFound();
             }
 
-            JObject gifJSON = _jsonService.CreateJSONFromGif(gif);
-
-            return Ok(gifJSON);
+            return Ok(gif);
         }
 
         [HttpPost]
@@ -74,37 +60,32 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(string id, GifDTO gif)
+        public async Task<IActionResult> Put([FromQuery]IdModel model, [FromForm]GifDTO gif)
         {
-            int decryptedId = _cryptoService.DecryptId(id);
-
-            GifDTO savedGif = await _gifService.GetById(decryptedId);
+            GifDTO savedGif = await _gifService.GetById(model.Id);
 
             if (savedGif == null)
             {
                 return NotFound();
             }
 
-            gif.Id = decryptedId;
-
+            gif.Id = savedGif.Id;
             await _gifService.Update(gif);
 
             return NoContent();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete([FromQuery]IdModel model)
         {
-            int decryptedId = _cryptoService.DecryptId(id);
-
-            GifDTO gif = await _gifService.GetById(decryptedId);
+            GifDTO gif = await _gifService.GetById(model.Id);
 
             if (gif == null)
             {
                 return NotFound();
             }
 
-            await _gifService.Delete(decryptedId);
+            await _gifService.Delete(model.Id);
 
             return NoContent();
         }

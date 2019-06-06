@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,30 +15,41 @@ using GiphyH.BLL.MapperUserDTO;
 using GiphyH.BLL.MapperGifDTO;
 using GiphyH.Services;
 using GiphyH.Interfaces;
+using GiphyH.Infrastructure;
+using GiphyH.DAL.GifInterfaces;
+using GiphyH.DAL.GifHandlers;
+using GiphyH.DAL.UserInterfaces;
+using GiphyH.DAL.UserHandlers;
 
 namespace GiphyH
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             InjectServices(services);
-            services.AddMvc();
+
+            services.AddMvc(options => {
+                options.RespectBrowserAcceptHeader = true;
+                options.ModelBinderProviders.Insert(0, new DecryptModelBinderProvider());
+                options.Filters.Add(typeof(EncryptFilter));
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.Use(async (ctx, next) =>
-                {
+                app.Use(async (ctx, next) => {
                     await next();
                     if (ctx.Response.StatusCode == StatusCodes.Status404NotFound && !ctx.Response.HasStarted)
                     {
@@ -71,11 +78,20 @@ namespace GiphyH
         {
             services.AddSingleton(Configuration);
             services.AddSingleton<ICryptoService, CryptoService>();
-            services.AddSingleton<IJSONService, JSONService>();
-            services.AddSingleton<IFileService, FileService>();
-            services.AddScoped<DAL.GifInterfaces.ICommonHandler, DAL.GifHandlers.CommonHandler>();
+            if (Environment.IsProduction())
+            {
+                services.AddSingleton<IFileService, RemoteFileService>();
+            }
+            else
+            {
+                services.AddSingleton<IFileService, LocalFileService>();
+            }
+
+            services.AddScoped<IGifCommandHandler, GifCommandHandler>();
+            services.AddScoped<IGifQueryHandler, GifQueryHandler>();
             services.AddScoped<IGifService, GifService>();
-            services.AddScoped<DAL.UserInterfaces.ICommonHandler, DAL.UserHandlers.CommonHandler>();
+            services.AddScoped<IUserCommandHandler, UserCommandHandler>();
+            services.AddScoped<IUserQueryHandler, UserQueryHandler>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddDbContext<ApplicationContext>(options =>
