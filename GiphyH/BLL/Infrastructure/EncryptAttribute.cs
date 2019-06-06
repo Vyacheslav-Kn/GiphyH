@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace GiphyH.BLL.Infrastructure
 {
     [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
-    public class EncryptAttributeAttribute : Attribute, IEncryptAttribute { }
+    public class EncryptAttribute : Attribute { }
 }

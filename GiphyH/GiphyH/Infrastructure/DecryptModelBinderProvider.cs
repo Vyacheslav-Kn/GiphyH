@@ -1,4 +1,5 @@
-﻿using GiphyH.BLL.Interfaces;
+﻿using GiphyH.BLL.Infrastructure;
+using GiphyH.BLL.Interfaces;
 using GiphyH.Interfaces;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
@@ -30,7 +31,7 @@ namespace GiphyH.Infrastructure
             }
 
             object attribute = propertyInfo
-                .GetCustomAttributes(typeof(IEncryptAttribute), false)
+                .GetCustomAttributes(typeof(EncryptAttribute), false)
                 .FirstOrDefault();
             if (attribute == null)
             {
