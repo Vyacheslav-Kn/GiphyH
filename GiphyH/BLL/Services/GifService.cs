@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
 using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
-using GiphyH.DAL.Database;
 using GiphyH.DAL.Entities;
 using GiphyH.DAL.GifCommands;
-using GiphyH.DAL.GifHandlers;
 using GiphyH.DAL.GifInterfaces;
 using GiphyH.DAL.GifQueries;
-using GiphyH.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GiphyH.BLL.Services

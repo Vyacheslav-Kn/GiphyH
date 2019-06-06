@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,9 +20,6 @@ using GiphyH.DAL.GifInterfaces;
 using GiphyH.DAL.GifHandlers;
 using GiphyH.DAL.UserInterfaces;
 using GiphyH.DAL.UserHandlers;
-using System.Collections.Specialized;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace GiphyH
 {

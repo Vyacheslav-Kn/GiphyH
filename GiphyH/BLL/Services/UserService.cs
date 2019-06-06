@@ -3,12 +3,8 @@ using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
 using GiphyH.DAL.Entities;
 using GiphyH.DAL.UserCommands;
-using GiphyH.DAL.UserHandlers;
 using GiphyH.DAL.UserInterfaces;
 using GiphyH.DAL.UserQueries;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GiphyH.BLL.Services

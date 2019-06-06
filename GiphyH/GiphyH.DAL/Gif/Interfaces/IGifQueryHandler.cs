@@ -1,9 +1,7 @@
 ﻿using GiphyH.DAL.Entities;
 using GiphyH.DAL.GifQueries;
 using GiphyH.DAL.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GiphyH.DAL.GifInterfaces

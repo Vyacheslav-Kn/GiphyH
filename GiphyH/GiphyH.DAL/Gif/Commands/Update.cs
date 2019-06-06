@@ -1,8 +1,4 @@
-﻿using GiphyH.DAL.Entities;
-using GiphyH.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using GiphyH.DAL.Interfaces;
 
 namespace GiphyH.DAL.GifCommands
 {

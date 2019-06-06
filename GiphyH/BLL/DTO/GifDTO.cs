@@ -1,9 +1,7 @@
 ﻿using GiphyH.BLL.Infrastructure;
 using GiphyH.BLL.PublicDTO;
-using GiphyH.DAL.Entities;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GiphyH.BLL.DTO
 {

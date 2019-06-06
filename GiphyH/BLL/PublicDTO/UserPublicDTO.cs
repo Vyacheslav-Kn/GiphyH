@@ -1,9 +1,4 @@
-﻿using GiphyH.BLL.DTO;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GiphyH.BLL.PublicDTO
+﻿namespace GiphyH.BLL.PublicDTO
 {
     public class UserPublicDTO
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GiphyH.DAL.Entities
+﻿namespace GiphyH.DAL.Entities
 {
     public class GifTag
     {
