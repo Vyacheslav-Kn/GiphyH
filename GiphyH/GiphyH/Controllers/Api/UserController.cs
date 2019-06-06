@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
-using GiphyH.Infrastructure;
+using GiphyH.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiphyH.Controllers.Api
@@ -33,16 +33,16 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([ModelBinder(typeof(DecryptModelBinder))]int id)
+        public async Task<IActionResult> Delete([FromQuery]IdModel model)
         {
-            UserDTO user = await _userService.GetById(id);
+            UserDTO user = await _userService.GetById(model.Id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            await _userService.Delete(id);
+            await _userService.Delete(model.Id);
 
             return NoContent();
         }

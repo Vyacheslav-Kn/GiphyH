@@ -1,6 +1,5 @@
 ﻿using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
-using GiphyH.Infrastructure;
 using GiphyH.Interfaces;
 using GiphyH.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -37,9 +36,9 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([ModelBinder(typeof(DecryptModelBinder))]int id)
+        public async Task<IActionResult> Get([FromQuery]IdModel model)
         {
-            GifDTO gif = await _gifService.GetById(id);
+            GifDTO gif = await _gifService.GetById(model.Id);
 
             if (gif == null)
             {
@@ -61,10 +60,9 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([ModelBinder(typeof(DecryptModelBinder))]int id,
-            [FromForm]GifDTO gif)
+        public async Task<IActionResult> Put([FromQuery]IdModel model, [FromForm]GifDTO gif)
         {
-            GifDTO savedGif = await _gifService.GetById(id);
+            GifDTO savedGif = await _gifService.GetById(model.Id);
 
             if (savedGif == null)
             {
@@ -78,16 +76,16 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([ModelBinder(typeof(DecryptModelBinder))]int id)
+        public async Task<IActionResult> Delete([FromQuery]IdModel model)
         {
-            GifDTO gif = await _gifService.GetById(id);
+            GifDTO gif = await _gifService.GetById(model.Id);
 
             if (gif == null)
             {
                 return NotFound();
             }
 
-            await _gifService.Delete(id);
+            await _gifService.Delete(model.Id);
 
             return NoContent();
         }
