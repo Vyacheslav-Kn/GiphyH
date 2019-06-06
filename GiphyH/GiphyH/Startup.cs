@@ -26,10 +26,12 @@ namespace GiphyH
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment Environment { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            Environment = environment;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -76,7 +78,12 @@ namespace GiphyH
         {
             services.AddSingleton(Configuration);
             services.AddSingleton<ICryptoService, CryptoService>();
-            services.AddSingleton<IFileService, FileService>();
+            if (Environment.IsProduction())
+            {
+                services.AddSingleton<IFileService, RemoteFileService>();
+            }
+            services.AddSingleton<IFileService, LocalFileService>();
+
             services.AddScoped<IGifCommandHandler, GifCommandHandler>();
             services.AddScoped<IGifQueryHandler, GifQueryHandler>();
             services.AddScoped<IGifService, GifService>();
