@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GiphyH.BLL.DTO;
 using GiphyH.BLL.Interfaces;
+using GiphyH.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiphyH.Controllers.Api
@@ -10,12 +11,10 @@ namespace GiphyH.Controllers.Api
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ICryptoService _cryptoService;
 
-        public UserController(IUserService userService, ICryptoService cryptoService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
-            _cryptoService = cryptoService;
         }
 
         [HttpPost]
@@ -34,18 +33,16 @@ namespace GiphyH.Controllers.Api
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete([ModelBinder(typeof(DecryptModelBinder))]int id)
         {
-            int decryptedId = _cryptoService.DecryptId(id);
-
-            UserDTO user = await _userService.GetById(decryptedId);
+            UserDTO user = await _userService.GetById(id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            await _userService.Delete(decryptedId);
+            await _userService.Delete(id);
 
             return NoContent();
         }
