@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GiphyH.Services
 {
-    public class FileService : IFileService
+    public class LocalFileService : IFileService
     {
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public FileService(IHostingEnvironment hostingEnvironment) {
+        public LocalFileService(IHostingEnvironment hostingEnvironment) {
             _hostingEnvironment = hostingEnvironment;
         }
 
