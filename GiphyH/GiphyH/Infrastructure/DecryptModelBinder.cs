@@ -20,13 +20,11 @@ namespace GiphyH.Infrastructure
         {
             ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
-            if (valueProviderResult == ValueProviderResult.None)
+            if (valueProviderResult != ValueProviderResult.None)
             {
-                return Task.CompletedTask;
+                int decryptedId = _cryptoService.DecryptId(valueProviderResult.FirstValue);
+                bindingContext.Result = ModelBindingResult.Success(decryptedId);
             }
-
-            int decryptedId = _cryptoService.DecryptId(valueProviderResult.FirstValue);
-            bindingContext.Result = ModelBindingResult.Success(decryptedId);
 
             return Task.CompletedTask;
         }

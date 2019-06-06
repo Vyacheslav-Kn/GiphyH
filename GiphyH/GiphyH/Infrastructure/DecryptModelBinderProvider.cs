@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace GiphyH.Infrastructure
@@ -22,16 +23,16 @@ namespace GiphyH.Infrastructure
                 return null;
             }
 
-            var propertyInfo = context.Metadata.ContainerType.GetProperty(propertyName);
+            PropertyInfo propertyInfo = context.Metadata.ContainerType.GetProperty(propertyName);
             if (propertyInfo == null)
             {
                 return null;
             }
 
-            var decryptAttribute = propertyInfo
-                .GetCustomAttributes(typeof(IProtectAttribute), false)
+            object attribute = propertyInfo
+                .GetCustomAttributes(typeof(IEncryptAttribute), false)
                 .FirstOrDefault();
-            if (decryptAttribute == null)
+            if (attribute == null)
             {
                 return null;
             }
