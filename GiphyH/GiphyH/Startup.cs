@@ -82,7 +82,10 @@ namespace GiphyH
             {
                 services.AddSingleton<IFileService, RemoteFileService>();
             }
-            services.AddSingleton<IFileService, LocalFileService>();
+            else
+            {
+                services.AddSingleton<IFileService, RemoteFileService>();
+            }
 
             services.AddScoped<IGifCommandHandler, GifCommandHandler>();
             services.AddScoped<IGifQueryHandler, GifQueryHandler>();
